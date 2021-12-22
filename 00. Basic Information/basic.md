@@ -7,7 +7,7 @@
 ### Performance Evaluation
  성능 측정은 **Performance Analysis**, 해당 알고리즘의 성능을 분석하는 것과, **Performance Measurement**, 실제 알고리즘의 성능을 측정하는 것으로 구분된다. 
 **Performance Analysis**의 경우 메모리와 시간 측면에서 분석을 하게 되는데, 이는 다음과 같다.
-*  _Space Complexity_: 알고리즘을 실행하는데 필요한 공간을 분석하는 것을 말한다. 이는 컴파일 시 결정된 후 프로그램의 실행이 끝날 때까지 고정적으로 필요한 _Fixed Space Requirements_(고정 공간)와 프로그램 실행 도중 동적으로 할당되는 공간인 _Variable Space Requirements_(가변 공간)로 나뉜다. <br>정리하면 공간 복잡도는 고정공간과 가변공간의 합으로 구성된다. 
+*  _Space Complexity_: 알고리즘을 실행하는데 필요한 공간을 분석하는 것을 말한다. 필요한 공간은 컴파일 시 결정된 후 프로그램의 실행이 끝날 때까지 고정적으로 필요한 _Fixed Space Requirements_(고정 공간)와 프로그램 실행 도중 동적으로 할당되는 공간인 _Variable Space Requirements_(가변 공간)로 나뉜다. <br>즉, 공간 복잡도는 고정공간과 가변공간 복잡도의 합으로 구성된다. 
 > Pointer를 사용할 경우 해당 데이터가 저장된 위치에 바로 접근해 값을 변경하기 때문에 공간 복잡도가 낮게 나온다.
 *  _Time Complexity_: 알고리즘을 실행하는데 필요한 시간을 분석하는 것을 의미한다. 이는 구분해보면 _Compile time_(고정 시간)과 _Run-time_(가변 시간)으로 나뉜다. 
 
@@ -16,7 +16,7 @@
 ### Asymptotic Notation(점근 표기법)
  **점근표기법**은 복잡도를 근사치로 표현하는 것이다. 이는 근사치이기 때문에, 두 알고리즘이 동일한 복잡도 O(n)을 갖고 있다 하더라도 동일한 복잡도를 갖지 않음을 주의해야 한다.
  대표적인 점근 표기법으로는 big-O, Omega, Theta Notation이 있다.
-*  _Big-O Notation_: **최악의 경우**에서의 시간 복잡도를 의미한다. 수학적 정의로는 &#34;_모든 n(n > n0)에 대해 f(n) <= c|g(n)|를 만족하는  c와 n0가 존재한다면 f(n) = O(g(n))_&#34;라고 표현한다. 즉, f(n)이 가장 클 때(최악의 상황)를 고려해야 한다는 뜻이다. 
+*  _Big-O Notation_: **최악의 경우**에서의 시간 복잡도를 의미한다. 수학적 정의로는 &#34;_모든 n(n > n0)에 대해 f(n) <= c|g(n)|를 만족하는  c와 n0가 존재한다면 f(n) = O(g(n))_&#34;라고 표현한다. 즉, f(n)이 가장 클 때(최악의 상황)를 고려해야 한다는 뜻이다. 단, 최악의 상황이기 때문에 최악의 상황이 일어날 경우의 수가 작더라도 반영되고, 따라서 실제론 좀 더 효율적이지만 Big-O Notation 상으로는 좋지 않아 보이는 경우가 있다.
  > Big-O Notation에는 보통 O(1), O(log n), O(n), O(n log n), O(n^2), O(n^3), O(2^n), O(n!)를 사용한다.
 *  _Big-Omega Notation_: 이번엔 반대로 f(n) >= cg(n)을 만족하는 두 양수 c, n0에 대한 Notation으로, **최선의 경우**를 고려하는 표기법이다. 
 *  _Big-Theta Notation_: Big-Theta는 **평균적인 경우**에서의 시간 복잡도로, c1g(n) <= f(n) <= c2g(n)을 만족하는 c1, c2, no가 존재한다면 f(n) = theta(g(n))이라 표현한다.  
@@ -24,6 +24,6 @@
 이 중 가장 정확한 표기법은 평균적인 경우를 표기하는 Big-Theta이지만, 실제로는 Big-O가 자주 사용된다. 점근 표기법은 상황에 따라 다르게 사용하지만, 일반적으로 알고리즘을 고려할 때 보는 주요 쟁점 중 하나가 최악의 경우에서의 성능이기 때문이다.
 
 ### Relation
-*  Reflexive: 모든 원소 a에 대해 a ? a가 성립. >=, = 와 같은 operation이 이에 부합함.
-*  Antisymmetric: a ? b, b ? a한 것은 a와 b가 일치할 때만 가능함. 
-*  Transitive: a ? b, b ? c라면 반드시 a ? c가 성립. 
+*  _Reflexive_: 모든 원소 a에 대해 a ? a가 성립. >=, = 와 같은 operation이 이에 부합함.
+*  _Antisymmetric_: a ? b, b ? a한 것은 a와 b가 일치할 때만 가능함. 
+*  _Transitive_: a ? b, b ? c라면 반드시 a ? c가 성립. 
