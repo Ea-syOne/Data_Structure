@@ -6,7 +6,8 @@ List를 관리하는 핵심적인 기능은 3가지가 있는데, **데이터 �
 모든 기능을 가장 효율적으로 수행하는 자료구조는 없기에 각 기능의 우선순위에 따라 알맞은 자료구조를 사용해야 한다.<br>
 
 ### Array List
-가장 기본적인 List인 array List는 배열을 이용하여 구현한다. 메모리 상의 한 지점에서 연속적으로 값을 저장하며, 이를 index를 통해 접근할 수 있는 구조이다. 
+가장 기본적인 List인 array List는 배열을 이용하여 구현한다. 메모리 상의 한 지점(Arr)을 시작점으로 하여 연속적으로 값을 저장하며, 이를 index를 통해 접근할 수 있는 구조이다.<br><br>
+![Array List](https://user-images.githubusercontent.com/86412960/147101861-3ded46f3-eef5-40cf-8dee-dd6a3d1cd71e.png)<br>
 #### 장점
 *  배열은 C, python, java 등에서 기본으로 제공해주기 때문에, **구현이 매우 쉽다**.
 *  별도의 메타데이터 없이 각 데이터를 저장할 공간만 있어도 된다.
@@ -22,16 +23,18 @@ Array List는 어느 Language에서도 **보편적으로 지원**하고, List의
 **삽입/삭제/탐색의 비용이 크기 때문에** 관리하는 데이터의 양이 커질 경우 **상당한 비효율**이 발생한다.
 
 ### Linked List
-Linked List는 Array List에서의 **삽입/삭제 성능을 개선**하기 위해 제안된 자료구조이다. 하나의 **Node**에 **Data**와 다음 Node를 가리키는 Pointer인 **Next**를 저장하며, Next를 통해 각 데이터를 연결하는 구조이다.
+Linked List는 Array List에서의 **삽입/삭제 성능을 개선**하기 위해 제안된 자료구조이다. 하나의 **Node**에 **Data**와 다음 Node를 가리키는 Pointer인 **Next**를 저장하며, Next를 통해 각 데이터를 연결하는 구조이다.<br><br>
+![Linked List](https://user-images.githubusercontent.com/86412960/147103141-eb38ddb9-7bd1-47e0-8106-4303b1190bf3.png)<br>
 #### 장점
-*  자료가 저장된 위치에 기반한 indexing을 하지 않기 때문에 각 Node가 디스크(또는 메모리) 상에 연속적으로 저장될 필요가 없다. 따라서 공간의 활용 측면에서 array List보다 더 유연하다.
-*  위의 이유 때문에 List의 크기가 변동되더라도 재할당할 필요가 없다. 따라서 크기를 확정할 수 없는 List에서는 더 유리하다.
-*  삽입의 경우 삽입할 위치를 입력받는다면 new -> Next를 pos -> Next로 만들고, pos -> Next를 new로 만들기만 하면 되기 때문에 O(1)의 시간복잡도를 갖는다. 
+*  자료가 저장된 위치에 기반한 indexing을 하지 않기 때문에 각 Node가 디스크(또는 메모리) 상에 **연속적으로 저장될 필요가 없다**. 따라서 공간의 활용 측면에서 array List보다 더 유연하다.
+   >  _Free space(240 bytes) - ( ... ) - Free space(160 bytes) - ( ...)_ 와 같이 Free space가 있을 때 **10개의 36 bytes 구조체**(= **360 bytes**)를 저장하는 **Array List**의 경우 공간 할당이 **불가능**하다. 반면 **Linked List**를 사용할 경우 구조체의 크기가 **4 bytes 더 요구되지만(Next pointer를 위한 공간)**, 10개의 List를 위한 공간 할당이 **가능**(= **240 bytes + 160 bytes**)해진다.
+*  공간 할당을 유연하게 할 수 있기 때문에 List의 크기가 변동되더라도 **재할당할 필요 없이** 새로 할당한 데이터를 이어 붙이기만 하면 된다. 따라서 크기를 확정할 수 없는 List에서는 더 유리하다.
+*  **삽입의 경우** 삽입할 위치를 입력받는다면 new -> Next를 pos -> Next로 만들고, pos -> Next를 new로 만들기만 하면 되기 때문에 **O(1)의 시간복잡도**를 갖는다. 
 #### 단점
-*  Next라는 메타데이터가 매 노드마다 필요하기 때문에 Array List보다 더 큰 비용이 요구된다. data의 크기가 작을 경우, 예를 들어 pointer 변수와 같은 크기의 데이터라면 Array List 사용 시보다 2배의 공간이 요구된다. 
-*  탐색의 경우 Array List와 동일하게 O(N)의 비용이 든다. 
-*  삭제는 pos 값을 입력 받으면 pos_prev -> next를 pos->next로 만들어 줘야하기 때문에 pos 이전 Node인 pos_prev를 탐색해야 하고, 따라서 O(N) + O(1) = O(N)의 비용이 들게 된다. 
-> 이 문제를 해결하기 위해서 제안된 자료구조가 Double-Linked List로, 각 Node가 next 뿐만 아니라 prev Node pointer도 갖는 구조이다. 그만큼 공간 사용 측면에서 손해를 보지만, 위치가 주어질 때의 삭제 비용을 O(1)로 줄여준다는 장점이 있다.
+*  Next라는 **메타데이터가 매 노드마다 필요**하기 때문에 Array List보다 **더 큰 공간 비용이 요구**된다. data의 크기가 작을 경우, 예를 들어 int 값만 저장할 것이라면 Array List 사용 시보다 2배의 공간이 요구된다. 
+*  **탐색의 경우** Array List와 동일하게 **O(N)의 비용**이 든다. 
+*  **삭제는** pos 값을 입력 받으면 pos_prev -> next를 pos->next로 만들어 줘야하기 때문에 pos **이전 Node인 pos_prev를 탐색해야 하고**, 따라서 **O(N) + O(1) = O(N)의 비용**이 들게 된다. 
+> 이 문제를 해결하기 위해서 제안된 자료구조가 **Double-Linked List**로, 각 Node가 next 뿐만 아니라 prev Node pointer도 갖는 구조이다. 그만큼 **공간 사용 측면에서 손해를 보지만**, 위치가 주어질 때의 **삭제 비용을 O(1)로 줄여준다**는 장점이 있다.
 
 ### Skip List
 Linked List, Double-Linked List에 거쳐 삽입, 삭제의 성능을 O(1)까지 끌어 올렸지만, 여전히 탐색은 O(N)으로 보완되지 못한 형태이다. Linked-List에서 Find를 더 효율적으로 하기 위해 보완한 구조가 Skip List로, Skip List는 2가지 특징을 갖는다. 
