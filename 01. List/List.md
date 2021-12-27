@@ -38,14 +38,15 @@ Linked List는 Array List에서의 **삽입/삭제 성능을 개선**하기 위�
 
 ### Skip List
 Linked List, Double-Linked List에 거쳐 삽입, 삭제의 성능을 O(1)까지 끌어 올렸지만, 여전히 탐색은 O(N)으로 보완되지 못한 형태이다. Linked-List에서 Find를 더 효율적으로 하기 위해 보완한 구조가 Skip List로, Skip List는 2가지 특징을 갖는다. 
-*  각 Node가 하나 이상의 next 값을 갖는다(= next 배열을 갖는다). 이때 모든 Node가 MAX_LEVEL개의 next를 갖진 않는다(공간을 절약하기 위함). 
-*  List의 data들이 크기 순으로 정렬되어 있다.
+*  각 Node가 하나 이상의 next 값을 갖는다(= next 배열을 갖는다). 이때 모든 Node가 MAX_LEVEL개의 next를 갖진 않는다(공간을 절약하기 위함 + Node가 여러 next를 갖는 의미가 없어짐). 
+*  List의 data들이 크기 순으로 정렬되어 있다 - 그렇지 않으면 체계적인 탐색이 불가능해짐 -.
 
-Skip List는 MAX_LEVEL개의 next를 갖는 head, tail Node에 의해 관리되며(각각 -∞, +∞ 값을 가짐), 모든 Node는 같은 Level 상에서 next로 Link되어 있다. 이를 보이면 다음 그림과 같다. <br>
-![Skip List](https://user-images.githubusercontent.com/86412960/147436701-be12321e-cff6-420f-94a5-cd9338472d6a.png)
+Skip List는 MAX_LEVEL개의 next를 갖는 head, tail Node에 의해 관리되며(각각 -∞, +∞ 값을 가짐), 모든 Node는 같은 Level 상에서 next로 Link되어 있다. 이를 보이면 다음 그림과 같다. <br><br>
+![Skip List](https://user-images.githubusercontent.com/86412960/147437029-3cfd5fde-e275-4a5a-a727-713c16f09171.png)
 <br>
 따라서 Find(x)를 하게 되면 head의 MAX_LEVEL부터 시작해서 data level에 내려올 때까지 다음 로직을 반복한다.
-*  만약 현재 level의 next Node가 갖는 data가 x보다 크다면 현재 Node의 하위 level로 내려가고, x보다 작거나 같다면 next Node의 하위 level로 내려간다.
+*  만약 현재 level의 next Node가 갖는 data가 x보다 크거나 같다면 현재 Node의 하위 level로 내려가고, x보다 작다면 next Node의 하위 level로 내려간다.
+*  if(n->next[i].data > n.data) { i--; } else { n = n->next[i]; i--; }와 같은 동작. 이를 i == 0일때까지 반복.
 
 이를 반복하다 data level까지 내려가면 원하는 값을 찾을 수 있게 된다. <br>
 #### 시간 복잡도
@@ -54,4 +55,4 @@ Skip List에서 많이 채택한 방식으로는 Random 방식이 있다. 반대
 #### 장점
 *  탐색이 빠르다. Random Skip List의 경우 보통 Log n의 level을 갖기 떄문에, 평균 O(log n)의 탐색 시간을 갖는다(확률성 자료구조이기 떄문에 최악의 경우는 O(N)이 나올 수 있다).
 #### 단점
-*  데이터 정렬, next 배열 조정 때문에 삽입, 삭제가 좀 더 오래 걸린다.  
+*  데이터 정렬, next 배열 조정 때문에 삽입, 삭제가 좀 더 오래 걸린다. 
