@@ -29,6 +29,22 @@ B-Tree에서 데이터 삭제 역시 데이터 크기에 따라 leaf node 단계
 하지만 만약 sibling node가 ceil(m/2)개의 데이터를 갖고 있어 Key Rotation 시 준-균형을 유지하지 못한다면 **Node Merging**을 수행한다. **Node Merging**은 타겟 node와 sibling node를 병합하는 작업으로, 그 결과 parent node의 데이터가 하나 줄게 된다. 그 때문에 parent의 데이터가 ceil(m/2) 미만이 될 경우 조건에 따라 반복적으로 None / Key Rotation / Node Merging을 수행한다.<br>
 ![B-Tree Delete02](https://user-images.githubusercontent.com/86412960/147466354-dca2fd5c-43f0-47ca-a178-95c33465385a.png)<br>
 > B-Tree 삭제 역시 Tree의 Root부터 수축시키면서 Leaf Node가 같은 level에 존재하게끔 유지시킨다.
+#### 장점
+*  보다 효율적으로 M-ways Tree의 균형을 유지할 수 있다. 따라서 탐색 속도가 안정적으로 보장된다.  
+*  AVL과 비교해보면 같은 양의 데이터 풀에서 더 낮은 높이로 Tree 구현이 가능하다.
+#### 단점
+*  삽입, 삭제 시 발생하는 Node Split과 Node Merging의 비용이 가변지는 않다. 
+*  모든 데이터를 순회하는 작업이 필요할 땐 효율적이지 못하다(child01 -> parent -> child02 -> parent ...).
+
+### B+ Tree
+B+ Tree는 B-Tree에서 데이터 순회 비효율을 해결하기 위해 고안된 자료구조이다. 기존 B-Tree는 Internal Node에도 데이터가 담겨 있어 데이터 순회마다 Internal Node도 조회해야 했지만, B+ Tree는 **Internal Node에 데이터를 담지 않고, Key만 담아** Internal Node 조회 필요성을 제거하면서 Leaf Node를 next_sibling pointer로 연결하여 데이터 순회를 효율적으로 구현하였다(이 때 데이터 = 탐색을 위한 key + 실제 value로 구성). 
+이 결과 총 Internal Node 수가 B Tree보다 늘어나지만, Internal Node 자체의 용량이 작아 부담이 덜하고, 데이터를 선형 탐색할 수 있게 된다.<br>
+![B+ Tree](https://user-images.githubusercontent.com/86412960/147473046-dc183f9b-70f0-454e-9ebc-df1c28b12bb0.png)<br>
+#### 장점
+*  Internal Node의 용량이 작아져 같은 메모리 크기에서 더 많은 Internal Node를 담을 수 있게 됨.
+*  데이터 순회를 O(n)으로 수행 가능.
+#### 단점
+모든 검색이 logm n번으로 이뤄진다. 따라서 n개의 서로 다른 데이터를 탐색할 때 걸리는 시간은 B-Tree보다 크거나 같다.
 
 ---------------------------------------------
 
