@@ -1,5 +1,5 @@
 ### Priority Queue(= Heap)
-Priority Queue, Heap은 항상 우선순위가 가장 높은 데이터를 Dequeue하는 Queue이다. Heap의 구현은 여러 방법이 존재하지만, 가장 단순한 방법으로는 Complete Binary Tree + Partially Ordered 구조를 응용한 binary heap이 있다.<br>
+Priority Queue, Heap은 항상 우선순위가 가장 높은 데이터를 Dequeue하는 Queue이다. Heap의 구현은 여러 방법이 존재하지만, 가장 단순한 방법으로는 **Complete Binary Tree + Partially Ordered 구조**를 응용한 binary heap이 있다.<br>
 Binary heap은 Complete binary tree 형태를 취하며, 따라서 leaf level 이전까지는 모두 가득 차있고, leaf level에서는 왼쪽부터 순차적으로 채워진 형태를 갖게 된다. 이러한 구현은 배열 기반 구현에서 child와 parent의 index 관계를 매우 직관적으로 보일 수 있다는 장점을 갖는다. 1번 index부터 level-order에 따라 데이터를 채워넣은 Array-based heap을 분석해보면 n번째 노드의 parent index는 **n / 2**, child index는 **n * 2 또는 n * 2 + 1**임을 알 수 있다.<br>
 **Heap Insert** 때에는 Complete binary tree의 마지막 노드 다음 위치에 새 데이터를 집어넣고, 해당 노드의 parent와 우선순위를 비교해가며 위치를 조정한다(따라서 O(log n)의 비용이 요구된다). **Heap Delete**의 경우는 Root에 담긴 값(= 우선 순위가 가장 높은 데이터)을 추출한 후, root에 Complete binary tree의 마지막 노드 데이터를 집어넣고, child와 비교해가며 위치를 조정한다(O(1) - root 추출 - + O(log n)의 비용 요구). 
 #### 장점
