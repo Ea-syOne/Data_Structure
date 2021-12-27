@@ -42,7 +42,7 @@ Linked List, Double-Linked List에 거쳐 삽입, 삭제의 성능을 O(1)까지
 *  List의 data들이 크기 순으로 정렬되어 있다.
 
 Skip List는 MAX_LEVEL개의 next를 갖는 head, tail Node에 의해 관리되며(각각 -∞, +∞ 값을 가짐), 모든 Node는 같은 Level 상에서 next로 Link되어 있다. 이를 보이면 다음 그림과 같다. <br>
-![skip](https://user-images.githubusercontent.com/86412960/125391694-dffc5400-e3df-11eb-92a0-cf17d289bc19.png)
+![Skip List](https://user-images.githubusercontent.com/86412960/147436701-be12321e-cff6-420f-94a5-cd9338472d6a.png)
 <br>
 따라서 Find(x)를 하게 되면 head의 MAX_LEVEL부터 시작해서 data level에 내려올 때까지 다음 로직을 반복한다.
 *  만약 현재 level의 next Node가 갖는 data가 x보다 크다면 현재 Node의 하위 level로 내려가고, x보다 작거나 같다면 next Node의 하위 level로 내려간다.
