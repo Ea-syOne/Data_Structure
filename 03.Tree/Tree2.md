@@ -8,6 +8,8 @@ AVL Tree의 단점(데이터가 많아지면 O(log n)의 비용조차도 부담�
 기본 Binary Search Tree와 동일한 문제점을 갖는데, **균형이 유지된다는 가정 하에 효율적**이라는 점이다. 하지만 큰 차이가 존재하는데, 단순한 구조의 Binary Search Tree와 달리, M-way Search Tree의 경우 **균형을 유지하는 것이 더 복잡하고, 고비용이란 점**이다.
 
 ### B-Tree
+
+![B-Tree](https://user-images.githubusercontent.com/86412960/147461988-1dc8b79a-6801-4084-abb5-6532ea1ac19d.png)<br>
 B-Tree는 비유하자면 Partially Balanced M-way Search tree이다. Binary Search Tree의 경우 균형이 어긋나는 경우가 4가지 밖에 되지 않기 떄문에 각 경우에 따라 대응할 수 있었지만, M-way의 경우는 일일히 구분하는 것은 매우 복잡해진다. 따라서 B-Tree는 준-균형을 유지하는 방식을 채택하였으며, 준-균형이란 다음과 같다.
 *  루트의 경우 2개 이상, m개 이하의 subtree를 갖는다.
 *  Internal Node(= Non-leaf)의 경우 ceil(m/2) 이상 m 이하의 subtree를 갖는다(Node의 data 수가 변동 가능). 
@@ -16,9 +18,17 @@ B-Tree는 비유하자면 Partially Balanced M-way Search tree이다. Binary Sea
 B-Tree는 이 준-균형만은 유지시키는 방식으로 구현되며, subtree간의 height 격차가 없어 최악의 경우와 평균적인 경우의 차이가 벌어지지 않는다. <br>
 이러한 준-균형은 삽입/삭제 시에 무너질 수 있기 때문에 각 경우에 균형이 무너지는 것을 방지하는 추가 작업이 요구된다. 
 #### B-Tree 삽입
-B-Tree에 새 데이터를 삽입할 때엔 leaf node 단계까지 내려가 해당 leaf node의 부모의 왼쪽부터 데이터를 채워넣는다. 그러나 해당 부모의 child가 m개 이상이 된다면 B-Tree의 조건이 깨지기 때문에 재조정이 필요하다. 일반적인 경우에는 AVL과 같이 Rotation을 수행하는데, rightmost child를 새 parent로 만들고, 기존 parent를 새 parent의 child로 만드는 key rotation을 수행하게 된다. 하지만 이는 근처 노드에 공간 여유가 있어야 가능한 작업으로, 그렇지 못한 경우 **Node Split**을 실행하게 된다. <br>
-**Node Split**은 용량이 초과된 노드를 둘로 나누는 과정을 의미한다. 이를 구체적으로 표현하면 해당 Node의 중간 값인 n번째  데이터를 Parent Node의 새 데이터 new_par로 올린 후, 1 ~ n-1까지의 데이터를 new_par의 left child로, n+1 ~ m까지의 데이터를 new_par의 right child로 만드는 것을 의미한다. 이 결과, 하나의 node가 2개의 node로 분리되며, parent node의 데이터 하나가 추가된다. 따라서, parent node의 데이터가 m개 이상이 되는 경우가 발생할 수도 있는데, 이 경우 조건에 따라 반복적으로 None / Key Rotation / Node Split을 수행하면 된다.
+B-Tree에 새 데이터를 삽입할 때엔 데이터 크기에 따라 leaf node 단계까지 내려가 해당 leaf node의 부모의 왼쪽부터 데이터를 채워넣는다. 그러나 해당 부모의 child가 m+1개 이상이 된다면 B-Tree의 조건이 깨지기 때문에 재조정이 필요하다. 일반적인 경우에는 AVL과 같이 Rotation을 수행하는데, rightmost child를 새 parent로 만들고, 기존 parent를 새 parent의 child로 만드는 **key rotation**을 수행하게 된다. 하지만 이는 근처 노드에 공간 여유가 있어야 가능한 작업으로, 그렇지 못한 경우 **Node Split**을 실행하게 된다. <br>
+![B-Tree Insert01](https://user-images.githubusercontent.com/86412960/147466201-1867e039-ce3e-4e91-b279-0c6a09672406.png)<br>
+**Node Split**은 용량이 초과된 노드를 둘로 나누는 과정을 의미한다. 이를 구체적으로 표현하면 해당 Node의 중간 값인 n번째  데이터를 Parent Node의 새 데이터 new_par로 올린 후, 1 ~ n-1까지의 데이터를 new_par의 left child로, n+1 ~ m까지의 데이터를 new_par의 right child로 만드는 것을 의미한다. 이 결과, 하나의 node가 2개의 node로 분리되며, parent node의 데이터 하나가 추가된다. 따라서, parent node의 데이터가 m개 이상이 되는 경우가 발생할 수도 있는데, 이 경우 조건에 따라 반복적으로 None / Key Rotation / Node Split을 수행하면 된다.<br>
+![B-Tree Insert02](https://user-images.githubusercontent.com/86412960/147466206-ee08b2c1-a528-4afc-a483-f242251f9439.png)<br>
+> B-Tree의 삽입은 Tree를 위쪽 방향으로 확장하면서 Leaf Node가 같은 level에 존재하게 유지(= 균형 유지)한다. 
 #### B-Tree 삭제
+B-Tree에서 데이터 삭제 역시 데이터 크기에 따라 leaf node 단계까지 내려가 해당 leaf node를 제거하는 작업이다. 삽입에서는 child가 m+1개 이상이 되는지를 주시한다면, 삭제에서는 child가 ceil(m/2)개 미만이 되는지를 주시한다. 일반적인 경우 역시 **Key Rotation**을 수행하여 sibling node를 parent에 올리고, 기존 parent 값을 child로 가져오는 작업을 수행한다.<br>
+![B-Tree Delete01](https://user-images.githubusercontent.com/86412960/147466210-f28a8cf2-9c05-419c-864f-cc51388e5d87.png)<br>
+하지만 만약 sibling node가 ceil(m/2)개의 데이터를 갖고 있어 Key Rotation 시 준-균형을 유지하지 못한다면 **Node Merging**을 수행한다. **Node Merging**은 타겟 node와 sibling node를 병합하는 작업으로, 그 결과 parent node의 데이터가 하나 줄게 된다. 그 때문에 parent의 데이터가 ceil(m/2) 미만이 될 경우 조건에 따라 반복적으로 None / Key Rotation / Node Merging을 수행한다.<br>
+![B-Tree Delete02](https://user-images.githubusercontent.com/86412960/147466354-dca2fd5c-43f0-47ca-a178-95c33465385a.png)<br>
+> B-Tree 삭제 역시 Tree의 Root부터 수축시키면서 Leaf Node가 같은 level에 존재하게끔 유지시킨다.
 
 ---------------------------------------------
 
