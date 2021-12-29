@@ -32,7 +32,7 @@ Diksta's Algorithm은 **Weighted Graph에서 최단 경로를 탐색**하기 위
 Acyclic Directed Graph에서 각 vertex의 Direction을 위배하지 않으면서 vertex를 정렬하는 것이다. 일반적으로 정렬할 때에는 모든 vertex가 자신이 이동 가능한 vertices(= out-degrees)가 왼쪽에 오지 않게 정렬한다. 즉 임의의 vertex의 어느 edge를 선택하더라도, edge 방향이 왼쪽 -> 오른쪽으로 나오게끔 정렬한다는 것을 의미한다. 예를 들어 vertex 1, 2, 3 | edge 1->3, 3->2, 1->2와 같이 있을 경우, vertex를 1 3 2로 재조정하는 것이라 할 수 있다. 이렇게 정렬하게 되면 vertex 간의 관계를 더 명확히 알 수 있고, edge 탐색을 더 효율적으로 수행할 수 있다.<br>
 ![Topological Sort](https://user-images.githubusercontent.com/86412960/147645092-50f2cd0b-968e-4cec-a9ec-75e283c0a8a9.png)
 #### Sorting Algorithm
-Topological Sort는 in-degree 속성을 이용한다. in-degree가 0
+Topological Sort는 in-degree 속성을 이용한다. vertex v의 **in-degree가 0이란 것**은 **나머지 edges가 v를 향하지 않는다**는 뜻이고 따라서 **v를 가장 왼쪽에 배치할 수 있다**는 것을 뜻한다. 따라서 다음과 같은 알고리즘으로 Topological Sorting이 가능하다.
 1.  in-degree가 0인 vertex를 queue에 넣는다.
 2.  queue에서 vertex 하나(= v)를 dequeue한 후, v와 인접한 모든 vertex w에 대해 in-degree 값을 1 감소시킨다. 이때 만약 w의 in-degree가 0이 된다면 queue에 저장한다.
     > v의 in-degree가 0이므로, w는 반드시 v의 out-degree이다. 즉 v는 w의 in-degree.
