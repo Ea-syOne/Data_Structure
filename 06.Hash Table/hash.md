@@ -4,16 +4,19 @@ Hash Table의 경우 삽입, 삭제, 탐색에 특화된 자료구조이다. 그
 ### Hash Table 구조
 *  **Bucket**: Hash Table에서 데이터를 담는 공간 단위. Hash Table은 하나 이상의 Bucket로 구성된다. 
 *  **Hash Function**: 데이터를 넣을 Bucket을 지정해주는 함수. 데이터 삽입의 경우 f(data.key)가 가리키게 되는 Bucket에 삽입을 하게 된다.<br> Hash Function의 경우 계산이 복잡하지 않아야 하며(비용이 적어야 하며), 후술할 Collision을 최소화해야 한다.
-*  **Collision**: 하나의 Bucket에 Key가 다른 데이터들이 담기게 되는 것을 의미한다. Collision이 발생하게 되면 데이터의 탐색 시간이 Hash Table이 의도하는 시간보다 더 길어질 수 밖에 없다(Bucket의 데이터 양이 많아지므로). 
+*  **Collision**: 하나의 Bucket에 Key가 다른 데이터들이 담기게 되는 것을 의미한다. Collision이 발생하게 되면 데이터의 탐색 시간이 Hash Table이 의도하는 시간보다 더 길어질 수 밖에 없다(Bucket의 데이터 양이 많아지므로). <br>
 
+![Hash Table](https://user-images.githubusercontent.com/86412960/147652887-77c3db50-6e6e-4000-a3f5-fbc2bf339a95.png)
 ### Hash Insert - Collision 최소화 방안
 Hash Insert에서 주의할 점은 Collision 관리라 할 수 있다. 여기에는 크게 2가지 방안이 존재한다.
 #### Seperate Chaining(= Open Hashing)
 Collision이 발생하면 해당 Bucket이 아닌 새 공간을 할당하여 해당 공간에 Key가 다른 데이터를 담고, 두 공간을 next pointer로 Linking하는 방식이다. Hash Table이 아닌 공간을 할당하여 사용하기 때문에 Open Hashing이라고도 불린다. <br>
+![Seperate Chaining](https://user-images.githubusercontent.com/86412960/147652892-959d6aa7-84ec-4eaa-976b-a72f2c76b2a5.png) <br>
 이 구현 방식에서 탐색을 하게 되면 Key에 따라 Bucket을 찾은 후, Bucket 내에서 Key와 일치하는 공간이 나올 때까지 Linked List를 탐색 후(추가 작업), 해당 공간 내에서 데이터를 찾게 된다. 따라서 탐색에 다소 Overhead가 발생하지만 데이터를 놓치지 않고 구현도 쉬운 장점이 있다.
 >  Linked List 역시 길어질수록 매우 비효율적이기 때문에, 하나의 Bucket에 매달린 Linked List가 일정 이상 길어지면 이를 Tree로 변환하기도 한다. 대표적으로 Java 8 이상에서 이러한 방식으로 구현한다.
 #### Open Addressing(= Closed Hashing)
 Collision이 발생할 경우, 정해진 규칙에 따라 빈 Bucket을 찾아 해당 Bucket에 저장하는 방법이다. 처음 만들어진 Hash Table 공간에서만 데이터를 저장하기 때문에 Closed Hashing이라고도 불린다. <br>
+![Open Addressing](https://user-images.githubusercontent.com/86412960/147652890-af28afc4-1050-4ece-94ce-20f6495af23a.png)<br>
 빈 Bucket을 찾는 규칙은 일반적으로 다음 3가지가 있다.
 *  **Linear** - 해당 Bucket 바로 다음 Bucket을 본다. Linear 방식의 경우 특정 Bucket 범위에 Collision이 집중될 경우 그 근처 Bucket에 계속 배치하면서 데이터가 배치된 Bucket 클러스터가 커지게 된다. 이 결과 평균 탐색 시간이 증가하게 된다.
 >  f(key) = A => Bucket A 탐색 => 없으니 바로 옆 탐색 => 다른 Collision으로 인해 이미 차있음 => 옆 탐색 => 또 아님 => ... <br> 이를 1차 군집(Primary Clustering) 현상이라 한다. 
